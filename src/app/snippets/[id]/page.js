@@ -35,3 +35,13 @@ export default async function (props) {
     );
   }
 }
+
+export async function generateStaticParams() {
+  const res = await fetch("http://localhost:3000/api/getAllSnippets");
+  const snippets = await res.json();
+  return snippets.map((snippet) => {
+    return {
+      id: snippet._id.toString(),
+    };
+  });
+}

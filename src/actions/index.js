@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -25,6 +26,7 @@ export async function createSnippet(formState, formData) {
   } catch (error) {
     return { message: "Snippet can't be saved. Please try again...." };
   }
+  revalidatePath("/");
   redirect("/");
 }
 
@@ -36,6 +38,7 @@ export async function editSnippet(id, code) {
   });
   const res = await data.json();
   toast.success("Successfully updated....");
+  revalidatePath(`/snippets/${id}`);
   redirect(`/`);
 }
 
@@ -47,5 +50,6 @@ export async function deleteSnippet(id) {
   });
 
   toast.success("Successfully deleted......");
+  revalidatePath("/");
   redirect(`/`);
 }
